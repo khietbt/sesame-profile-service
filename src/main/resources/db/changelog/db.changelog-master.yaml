@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-10-02_drop_table_if_exists_profiles_0001
+      author: khietbt
+      preConditions:
+        - onFail: MARK_RAN
+        - tableExists:
+            tableName: profiles
+      changes:
+        - dropTable:
+            tableName: profiles
+  - changeSet:
+      id: 2023-10-02_create_table_profiles_0001
+      author: khietbt
+      changes:
+        - createTable:
+            tableName: profiles
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: user_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: phone
+                  type: varchar(255)
+              - column:
+                  name: created_by
+                  type: varchar(255)
+              - column:
+                  name: updated_by
+                  type: varchar(255)
+              - column:
+                  name: created_at
+                  type: datetime(6)
+              - column:
+                  name: updated_at
+                  type: datetime(6)
+              - column:
+                  name: version
+                  type: int

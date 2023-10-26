@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: sesame-profile-service
+  config:
+    import: ${SPRING_CONFIG_IMPORT}
+  cloud:
+    config:
+      username: ${SPRING_CLOUD_CONFIG_USERNAME}
+      password: ${SPRING_CLOUD_CONFIG_PASSWORD}
+  r2dbc:
+    url: r2dbc:postgresql://localhost/sesame-profile-service
+    username: sesame
+    password: sesame
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost/sesame-profile-service
+    password: sesame
+    user: sesame
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: sesame-client
+          client-secret: DbALQszdGQhQiJ3MrJ1k8EPvgJtOtPRb
+          introspection-uri: http://localhost:8180/realms/sesame/protocol/openid-connect/token/introspect
