@@ -14,7 +14,6 @@ import org.springframework.data.relational.core.mapping.Table;
         callSuper = true
 )
 public class Profile extends Auditable {
-
     private String userId;
 
     private String email;
