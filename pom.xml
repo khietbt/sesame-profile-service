@@ -74,7 +74,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.khietbt</groupId>
-            <artifactId>sesame-keycloak-library</artifactId>
+            <artifactId>sesame-security-library</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
