@@ -1,9 +1,8 @@
 package io.github.khietbt.managers;
 
 import io.github.khietbt.annotations.ProtectedResource;
+import io.github.khietbt.authorizors.Authorizor;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.authorization.client.AuthzClient;
-import org.keycloak.representations.idm.authorization.AuthorizationRequest;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.core.Authentication;
@@ -13,12 +12,11 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-
 @RequiredArgsConstructor
-public class KeycloakReactiveAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
+public class SesameReactiveAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
     private final RequestMappingHandlerMapping handlers;
-    private final AuthzClient keycloakClient;
+
+    private final Authorizor authorizor;
 
     /**
      * Determines if access is granted for a specific authentication and context.
@@ -36,26 +34,19 @@ public class KeycloakReactiveAuthorizationManager implements ReactiveAuthorizati
                 )
                 .map(
                         data -> {
-                            try {
-                                var jwt = ((JwtAuthenticationToken) data.getT1()).getToken().getTokenValue();
-                                var authorizationRequest = createKeycloakAuthorizationRequest((HandlerMethod) data.getT2());
+                            var jwt = ((JwtAuthenticationToken) data.getT1()).getToken().getTokenValue();
+                            var handler = (HandlerMethod) data.getT2();
+                            var protectedResource = handler.getBeanType().getAnnotation(ProtectedResource.class);
+                            var resource = "no-resource";
+                            var scope = handler.getMethod().getName();
 
-                                keycloakClient.authorization(jwt).authorize(authorizationRequest);
-
-                                return new AuthorizationDecision(true);
-                            } catch (Exception ignored) {
-                                return new AuthorizationDecision(false);
+                            if (protectedResource != null) {
+                                resource = protectedResource.value();
                             }
+
+                            return new AuthorizationDecision(authorizor.authorize(jwt, resource, scope));
                         }
                 );
     }
 
-    private AuthorizationRequest createKeycloakAuthorizationRequest(HandlerMethod handler) {
-        var request = new AuthorizationRequest();
-
-        Arrays.stream(handler.getBeanType().getAnnotationsByType(ProtectedResource.class))
-                .forEach(r -> request.addPermission(r.value(), handler.getMethod().getName()));
-
-        return request;
-    }
 }

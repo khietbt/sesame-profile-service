@@ -1,5 +1,6 @@
 package io.github.khietbt.controllers;
 
+import io.github.khietbt.annotations.ProtectedResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 
+@ProtectedResource("resource:sesame:sesame-profile-service:profile")
 @RequestMapping("/profiles")
 @RestController
 @Slf4j

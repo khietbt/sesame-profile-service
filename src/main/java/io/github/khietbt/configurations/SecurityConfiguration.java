@@ -1,8 +1,8 @@
 package io.github.khietbt.configurations;
 
-import io.github.khietbt.managers.KeycloakReactiveAuthorizationManager;
+import io.github.khietbt.authorizors.Authorizor;
+import io.github.khietbt.managers.SesameReactiveAuthorizationManager;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.authorization.client.AuthzClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -19,7 +19,7 @@ import org.springframework.web.reactive.result.method.annotation.RequestMappingH
 public class SecurityConfiguration {
     private final RequestMappingHandlerMapping handlers;
 
-    private final AuthzClient authzClient;
+    private final Authorizor authorizor;
 
     @Bean
     public SecurityWebFilterChain securityFilterChain(
@@ -27,7 +27,7 @@ public class SecurityConfiguration {
     ) {
         http.authorizeExchange(
                 c -> c.pathMatchers("/**")
-                        .access(new KeycloakReactiveAuthorizationManager(handlers, authzClient))
+                        .access(new SesameReactiveAuthorizationManager(handlers, authorizor))
                         .anyExchange()
                         .authenticated()
         );

@@ -73,11 +73,6 @@
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-authz-client</artifactId>
-            <version>22.0.4</version>
-        </dependency>
-        <dependency>
             <groupId>io.github.khietbt</groupId>
             <artifactId>sesame-keycloak-library</artifactId>
             <version>1.0.0</version>
