@@ -2,7 +2,7 @@ package io.github.khietbt.configurations;
 
 import io.github.khietbt.authorizors.Authorizor;
 import io.github.khietbt.managers.SesameReactiveAuthorizationManager;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,11 +15,18 @@ import org.springframework.web.reactive.result.method.annotation.RequestMappingH
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
     private final RequestMappingHandlerMapping handlers;
 
     private final Authorizor authorizor;
+
+    public SecurityConfiguration(
+            RequestMappingHandlerMapping handlers,
+            @Qualifier("keycloakAuthorizor") Authorizor authorizor
+    ) {
+        this.handlers = handlers;
+        this.authorizor = authorizor;
+    }
 
     @Bean
     public SecurityWebFilterChain securityFilterChain(
