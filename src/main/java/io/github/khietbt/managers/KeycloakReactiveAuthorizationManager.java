@@ -1,6 +1,6 @@
 package io.github.khietbt.managers;
 
-import io.github.khietbt.annotations.KeycloakResource;
+import io.github.khietbt.annotations.ProtectedResource;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.representations.idm.authorization.AuthorizationRequest;
@@ -53,7 +53,7 @@ public class KeycloakReactiveAuthorizationManager implements ReactiveAuthorizati
     private AuthorizationRequest createKeycloakAuthorizationRequest(HandlerMethod handler) {
         var request = new AuthorizationRequest();
 
-        Arrays.stream(handler.getBeanType().getAnnotationsByType(KeycloakResource.class))
+        Arrays.stream(handler.getBeanType().getAnnotationsByType(ProtectedResource.class))
                 .forEach(r -> request.addPermission(r.value(), handler.getMethod().getName()));
 
         return request;

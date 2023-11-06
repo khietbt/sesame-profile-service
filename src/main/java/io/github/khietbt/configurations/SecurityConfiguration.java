@@ -19,13 +19,15 @@ import org.springframework.web.reactive.result.method.annotation.RequestMappingH
 public class SecurityConfiguration {
     private final RequestMappingHandlerMapping handlers;
 
+    private final AuthzClient authzClient;
+
     @Bean
     public SecurityWebFilterChain securityFilterChain(
             ServerHttpSecurity http
     ) {
         http.authorizeExchange(
                 c -> c.pathMatchers("/**")
-                        .access(new KeycloakReactiveAuthorizationManager(handlers, AuthzClient.create()))
+                        .access(new KeycloakReactiveAuthorizationManager(handlers, authzClient))
                         .anyExchange()
                         .authenticated()
         );

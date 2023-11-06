@@ -34,3 +34,10 @@ spring:
             user-name-attribute: preferred_username
             issuer-uri: http://localhost:8180/realms/sesame
             jwk-set-uri: http://localhost:8180/realms/sesame/protocol/openid-connect/certs
+
+keycloak:
+  enabled: true
+  auth-server-url: http://localhost:8180
+  realm: sesame
+  client-id: sesame-client
+  client-secret: DbALQszdGQhQiJ3MrJ1k8EPvgJtOtPRb
