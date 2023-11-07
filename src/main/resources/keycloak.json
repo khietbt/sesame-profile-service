@@ -1,8 +1,0 @@
-{
-  "realm": "sesame",
-  "auth-server-url": "http://localhost:8180",
-  "resource": "sesame-client",
-  "credentials": {
-    "secret": "DbALQszdGQhQiJ3MrJ1k8EPvgJtOtPRb"
-  }
-}

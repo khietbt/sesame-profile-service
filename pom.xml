@@ -69,10 +69,6 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.khietbt</groupId>
             <artifactId>sesame-security-library</artifactId>
             <version>1.0.0</version>
